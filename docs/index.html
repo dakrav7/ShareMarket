@@ -13,7 +13,7 @@ body {
 }
 
 .container {
-  max-width: 600px;
+  max-width: 900px;
   margin: 20px auto;
   background-color: #fff;
   border-radius: 8px;
@@ -56,10 +56,26 @@ button:hover {
   background-color: #45a049;
 }
 
-p {
-  margin-top: 20px;
-  font-size: 16px;
-  line-height: 1.6;
+.output-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.output {
+  flex: 1;
+}
+
+.output p {
+  margin: 0;
+}
+
+.key {
+  color: red;
+}
+
+.value {
+  color: black;
+  font-weight: bold;
 }
 
 </style>
@@ -71,28 +87,32 @@ p {
   <h1>Pivot Point Calculator</h1>
 
   <form id="pivotForm">
-    <label for="high">Previous High:</label>
+    <label for="high">Previous Day's High:</label>
     <input type="number" id="high" name="high" required>
     
-    <label for="low">Previous Low:</label>
+    <label for="low">Previous Day's Low:</label>
     <input type="number" id="low" name="low" required>
     
-    <label for="close">Previous Close:</label>
+    <label for="close">Previous Day's Close:</label>
     <input type="number" id="close" name="close" required>
 
-    <label for="open">Previous Open:</label>
+    <label for="open">Previous Day's Open:</label>
     <input type="number" id="open" name="open" required>
     
-    <label>Calculation Type:</label><br>
-    <input type="radio" id="hlo" name="calculationType" value="hlo" checked>
-    <label for="hlo">HLO</label><br>
-    <input type="radio" id="hloc" name="calculationType" value="hloc">
-    <label for="hloc">HLOC</label><br>
-
     <button type="button" onclick="calculatePivot()">Calculate</button>
   </form>
 
-  <p id="result"></p>
+  <div class="output-container">
+    <div class="output" id="hloOutput">
+      <h2>Output - HLO</h2>
+      <p id="hloResult"></p>
+    </div>
+
+    <div class="output" id="hlocOutput">
+      <h2>Output - HLOC</h2>
+      <p id="hlocResult"></p>
+    </div>
+  </div>
 
 </div>
 
@@ -102,37 +122,52 @@ function calculatePivot() {
   var L = parseFloat(document.getElementById("low").value);
   var C = parseFloat(document.getElementById("close").value);
   var O = parseFloat(document.getElementById("open").value);
-  var calculationType = document.querySelector('input[name="calculationType"]:checked').value;
   
-  var P, R1, R2, R3, S1, S2, S3;
+  var hloResult = calculateHLO(H, L, C);
+  var hlocResult = calculateHLOC(H, L, C, O);
   
-  if (calculationType === "hlo") {
-    P = (H + L + C) / 3;
-    R1 = (P * 2) - L;
-    R2 = P + (H - L);
-    R3 = H + 2 * (P - L);
-    S1 = (P * 2) - H;
-    S2 = P - (H - L);
-    S3 = L - 2 * (H - P);
-  } else if (calculationType === "hloc") {
-    var Pivot = (H + C + L + O) / 4;
-    R1 = 2 * Pivot - L;
-    R2 = Pivot + (R1 - (2 * Pivot - H));
-    R3 = H + 2 * (Pivot - L);
-    S1 = 2 * Pivot - H;
-    S2 = Pivot - (R1 - S1);
-    S3 = L - 2 * (H - Pivot);
-  }
-  
-  var result = "Pivot Point (Pivot): " + (calculationType === "hloc" ? Pivot.toFixed(2) : P.toFixed(2)) + "<br>";
-  result += "Support 1 (S1): " + S1.toFixed(2) + "<br>";
-  result += "Support 2 (S2): " + S2.toFixed(2) + "<br>";
-  result += "Support 3 (S3): " + S3.toFixed(2) + "<br>";
-  result += "Resistance 1 (R1): " + R1.toFixed(2) + "<br>";
-  result += "Resistance 2 (R2): " + R2.toFixed(2) + "<br>";
-  result += "Resistance 3 (R3): " + R3.toFixed(2) + "<br>";
-  
-  document.getElementById("result").innerHTML = result;
+  document.getElementById("hloResult").innerHTML = hloResult;
+  document.getElementById("hlocResult").innerHTML = hlocResult;
+}
+
+function calculateHLO(H, L, C) {
+  var P = (H + L + C) / 3;
+  var R1 = (P * 2) - L;
+  var R2 = P + (H - L);
+  var R3 = H + 2 * (P - L);
+  var S1 = (P * 2) - H;
+  var S2 = P - (H - L);
+  var S3 = L - 2 * (H - P);
+
+  var result = "<span class='key'>Pivot Point (P):</span> <span class='value'>" + P.toFixed(2) + "</span><br>";
+  result += "<span class='key'>Support 1 (S1):</span> <span class='value'>" + S1.toFixed(2) + "</span><br>";
+  result += "<span class='key'>Support 2 (S2):</span> <span class='value'>" + S2.toFixed(2) + "</span><br>";
+  result += "<span class='key'>Support 3 (S3):</span> <span class='value'>" + S3.toFixed(2) + "</span><br>";
+  result += "<span class='key'>Resistance 1 (R1):</span> <span class='value'>" + R1.toFixed(2) + "</span><br>";
+  result += "<span class='key'>Resistance 2 (R2):</span> <span class='value'>" + R2.toFixed(2) + "</span><br>";
+  result += "<span class='key'>Resistance 3 (R3):</span> <span class='value'>" + R3.toFixed(2) + "</span><br>";
+
+  return result;
+}
+
+function calculateHLOC(H, L, C, O) {
+  var Pivot = (H + C + L + O) / 4;
+  var R1 = 2 * Pivot - L;
+  var R2 = Pivot + (R1 - (2 * Pivot - H));
+  var R3 = H + 2 * (Pivot - L);
+  var S1 = 2 * Pivot - H;
+  var S2 = Pivot - (R1 - S1);
+  var S3 = L - 2 * (H - Pivot);
+
+  var result = "<span class='key'>Pivot Point (Pivot):</span> <span class='value'>" + Pivot.toFixed(2) + "</span><br>";
+  result += "<span class='key'>Support 1 (S1):</span> <span class='value'>" + S1.toFixed(2) + "</span><br>";
+  result += "<span class='key'>Support 2 (S2):</span> <span class='value'>" + S2.toFixed(2) + "</span><br>";
+  result += "<span class='key'>Support 3 (S3):</span> <span class='value'>" + S3.toFixed(2) + "</span><br>";
+  result += "<span class='key'>Resistance 1 (R1):</span> <span class='value'>" + R1.toFixed(2) + "</span><br>";
+  result += "<span class='key'>Resistance 2 (R2):</span> <span class='value'>" + R2.toFixed(2) + "</span><br>";
+  result += "<span class='key'>Resistance 3 (R3):</span> <span class='value'>" + R3.toFixed(2) + "</span><br>";
+
+  return result;
 }
 </script>
 
