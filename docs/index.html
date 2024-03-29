@@ -4,34 +4,97 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pivot Point Calculator</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 20px auto;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type="number"],
+button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+p {
+  margin-top: 20px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+</style>
 </head>
 <body>
 
-<h1>Pivot Point Calculator</h1>
+<div class="container">
 
-<form id="pivotForm">
-  <label for="high">Previous Day's High:</label>
-  <input type="number" id="high" name="high" required><br><br>
-  
-  <label for="low">Previous Day's Low:</label>
-  <input type="number" id="low" name="low" required><br><br>
-  
-  <label for="close">Previous Day's Close:</label>
-  <input type="number" id="close" name="close" required><br><br>
+  <h1>Pivot Point Calculator</h1>
 
-  <label for="open">Previous Day's Open:</label>
-  <input type="number" id="open" name="open" required><br><br>
-  
-  <label>Calculation Type:</label><br>
-  <input type="radio" id="hlo" name="calculationType" value="hlo" checked>
-  <label for="hlo">HLO</label><br>
-  <input type="radio" id="hloc" name="calculationType" value="hloc">
-  <label for="hloc">HLOC</label><br><br>
+  <form id="pivotForm">
+    <label for="high">Previous High:</label>
+    <input type="number" id="high" name="high" required>
+    
+    <label for="low">Previous Low:</label>
+    <input type="number" id="low" name="low" required>
+    
+    <label for="close">Previous Close:</label>
+    <input type="number" id="close" name="close" required>
 
-  <button type="button" onclick="calculatePivot()">Calculate</button>
-</form>
+    <label for="open">Previous Open:</label>
+    <input type="number" id="open" name="open" required>
+    
+    <label>Calculation Type:</label><br>
+    <input type="radio" id="hlo" name="calculationType" value="hlo" checked>
+    <label for="hlo">HLO</label><br>
+    <input type="radio" id="hloc" name="calculationType" value="hloc">
+    <label for="hloc">HLOC</label><br>
 
-<p id="result"></p>
+    <button type="button" onclick="calculatePivot()">Calculate</button>
+  </form>
+
+  <p id="result"></p>
+
+</div>
 
 <script>
 function calculatePivot() {
