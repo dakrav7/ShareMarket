@@ -22,6 +22,12 @@
   <label for="open">Previous Day's Open:</label>
   <input type="number" id="open" name="open" required><br><br>
   
+  <label>Calculation Type:</label><br>
+  <input type="radio" id="hlo" name="calculationType" value="hlo" checked>
+  <label for="hlo">HLO</label><br>
+  <input type="radio" id="hloc" name="calculationType" value="hloc">
+  <label for="hloc">HLOC</label><br><br>
+
   <button type="button" onclick="calculatePivot()">Calculate</button>
 </form>
 
@@ -33,16 +39,29 @@ function calculatePivot() {
   var L = parseFloat(document.getElementById("low").value);
   var C = parseFloat(document.getElementById("close").value);
   var O = parseFloat(document.getElementById("open").value);
+  var calculationType = document.querySelector('input[name="calculationType"]:checked').value;
   
-  var Pivot = (H + C + L + O) / 4;
-  var R1 = 2 * Pivot - L;
-  var R2 = Pivot + (R1 - (2 * Pivot - H));
-  var R3 = H + 2 * (Pivot - L);
-  var S1 = 2 * Pivot - H;
-  var S2 = Pivot - (R1 - S1);
-  var S3 = L - 2 * (H - Pivot);
+  var P, R1, R2, R3, S1, S2, S3;
   
-  var result = "Pivot Point (Pivot): " + Pivot.toFixed(2) + "<br>";
+  if (calculationType === "hlo") {
+    P = (H + L + C) / 3;
+    R1 = (P * 2) - L;
+    R2 = P + (H - L);
+    R3 = H + 2 * (P - L);
+    S1 = (P * 2) - H;
+    S2 = P - (H - L);
+    S3 = L - 2 * (H - P);
+  } else if (calculationType === "hloc") {
+    var Pivot = (H + C + L + O) / 4;
+    R1 = 2 * Pivot - L;
+    R2 = Pivot + (R1 - (2 * Pivot - H));
+    R3 = H + 2 * (Pivot - L);
+    S1 = 2 * Pivot - H;
+    S2 = Pivot - (R1 - S1);
+    S3 = L - 2 * (H - Pivot);
+  }
+  
+  var result = "Pivot Point (Pivot): " + (calculationType === "hloc" ? Pivot.toFixed(2) : P.toFixed(2)) + "<br>";
   result += "Support 1 (S1): " + S1.toFixed(2) + "<br>";
   result += "Support 2 (S2): " + S2.toFixed(2) + "<br>";
   result += "Support 3 (S3): " + S3.toFixed(2) + "<br>";
