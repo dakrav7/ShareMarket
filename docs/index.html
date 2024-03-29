@@ -151,4 +151,19 @@ function calculateHLOC(H, L, C, O) {
   var R3 = H + 2 * (Pivot - L);
   var S1 = 2 * Pivot - H;
   var S2 = Pivot - (R1 - S1);
-  var S3 = L - 2 * (
+  var S3 = L - 2 * (H - Pivot);
+
+  var result = "<span class='key'>Pivot Point (Pivot):</span> <span class='value'>" + Pivot.toFixed(2) + "</span><br>";
+  result += "<span class='key'>Support 1 (S1):</span> <span class='value'>" + S1.toFixed(2) + "</span><br>";
+  result += "<span class='key'>Support 2 (S2):</span> <span class='value'>" + S2.toFixed(2) + "</span><br>";
+  result += "<span class='key'>Support 3 (S3):</span> <span class='value'>" + S3.toFixed(2) + "</span><br>";
+  result += "<span class='key'>Resistance 1 (R1):</span> <span class='value'>" + R1.toFixed(2) + "</span><br>";
+  result += "<span class='key'>Resistance 2 (R2):</span> <span class='value'>" + R2.toFixed(2) + "</span><br>";
+  result += "<span class='key'>Resistance 3 (R3):</span> <span class='value'>" + R3.toFixed(2) + "</span><br>";
+
+  return result;
+}
+</script>
+
+</body>
+</html>
