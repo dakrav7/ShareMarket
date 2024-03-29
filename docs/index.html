@@ -56,17 +56,8 @@ button:hover {
   background-color: #45a049;
 }
 
-.output-container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.output {
-  flex: 1;
-}
-
 .output p {
-  margin: 0;
+  margin: 10px 0; /* Add space above and below each paragraph */
 }
 
 .key {
@@ -102,16 +93,14 @@ button:hover {
     <button type="button" onclick="calculatePivot()">Calculate</button>
   </form>
 
-  <div class="output-container">
-    <div class="output" id="hloOutput">
-      <h2>Output - HLO</h2>
-      <p id="hloResult"></p>
-    </div>
+  <div id="hloOutput">
+    <h2>Output - HLO</h2>
+    <p id="hloResult"></p>
+  </div>
 
-    <div class="output" id="hlocOutput">
-      <h2>Output - HLOC</h2>
-      <p id="hlocResult"></p>
-    </div>
+  <div id="hlocOutput">
+    <h2>Output - HLOC</h2>
+    <p id="hlocResult"></p>
   </div>
 
 </div>
